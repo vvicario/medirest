@@ -14,6 +14,7 @@ GET to http://localhost:8080/api/users.  You should get back some data.
 # Setting Up Swagger
 
 1) Add the following dependency to our pom.xml
+
              <dependency>
                    <groupId>io.swagger</groupId>
                         <artifactId>swagger-jaxrs</artifactId>
