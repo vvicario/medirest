@@ -1,0 +1,19 @@
+.idea/
+*.ipr
+*.iws
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+### Java template
+*.class
+# Package Files #
+*.jar
+*.war
+*.ear
+*.iml
+/target/
+
+
+

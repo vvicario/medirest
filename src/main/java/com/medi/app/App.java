@@ -9,23 +9,31 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 
-public class App
-{
+public class App {
 
+    static final String API_PATH_SPEC = "/api/*";
 
     public static void main( String[] args ) {
 
+        final int port = 8080;
+        final Server server = new Server(port);
         ResourceConfig config = new ResourceConfig();
         config.packages("com.medi.app");
         config.register(JacksonFeature.class);
-        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+        ServletHolder apiServlet = new ServletHolder(new ServletContainer(config));
+
+        // setup Application context
+        ServletContextHandler context = new ServletContextHandler();
+        apiServlet.setInitOrder(1);
+        context.addServlet(apiServlet, API_PATH_SPEC);
+        // setup swagger ui
 
 
-        Server server = new Server(2222);
-        ServletContextHandler context = new ServletContextHandler(server, "/*");
-        context.addServlet(servlet, "/*");
 
 
+
+
+        server.setHandler(context);
         try {
             server.start();
             server.join();

@@ -17,7 +17,10 @@ public class UserResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllUsers() {
-        return Response.ok().entity(new User("Veronica", "Vicario")).build();
+        return Response.ok().entity(new User("Lucas", "Perez")).build();
     }
+
+
+
 }
 
