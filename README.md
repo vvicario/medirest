@@ -1,6 +1,6 @@
 # rest example
 
-# Requiere Java 1.8 y maven
+# Requires Java 1.8 and maven
 
 # Installation
 Run `mvn clean install`.
@@ -14,12 +14,11 @@ GET to http://localhost:8080/api/users.  You should get back some data.
 # Setting Up Swagger
 
 1) Add the following dependency to our pom.xml
-
-     <dependency>
-           <groupId>io.swagger</groupId>
-                <artifactId>swagger-jaxrs</artifactId>
-                <version>1.5.0</version>
-     </dependency>
+             <dependency>
+                   <groupId>io.swagger</groupId>
+                        <artifactId>swagger-jaxrs</artifactId>
+                        <version>1.5.0</version>
+             </dependency>
 
 2) To your pom.xml, you need to add the ability to download and and then copy the Swagger-UI static resources to your project's resources folder.
    That way when you package and run your server, it will be able to display the Swagger UI at http:://<host>:8080/.
