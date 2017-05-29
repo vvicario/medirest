@@ -10,15 +10,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "user")
 public class User {
 
+    private Integer id;
     private String name;
     private String surname;
 
     public User(){
     }
 
-    public User(String name, String surname) {
+    public User(String name, String surname, Integer id) {
         this.name = name;
         this.surname = surname;
+        this.id = id;
     }
 
     @XmlElement
@@ -37,5 +39,13 @@ public class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
