@@ -15,6 +15,7 @@ public class App {
     static final String API_PATH_SPEC = "/api/*";
 
     public static void main( String[] args ) throws Exception {
+
         final int port = 8080;
         final Server server = new Server(port);
         ResourceConfig config = new ResourceConfig();
