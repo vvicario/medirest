@@ -1,15 +1,16 @@
 package com.medi.app.resources;
 
+import com.medi.app.services.UserServiceImpl;
+import com.medi.app.model.PatchOperation;
 import com.medi.app.model.User;
-
+import io.swagger.jaxrs.PATCH;
 import javax.ws.rs.*;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,25 +19,82 @@ import java.util.List;
 @Path("users")
 public class UserResource {
 
-    private static List<User> users = new ArrayList<User>(Arrays.asList(new User("Lucas", "Perez", 1)));
     private static Integer ID = 1;
-
-
+    private final String NAME = "name";
+    private UserServiceImpl userService = new UserServiceImpl();
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON})
     public Response getAllUsers() {
-        return Response.ok().entity(users).build();
+        return Response.ok().entity(userService.getUsers()).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getUserById(@PathParam("id") Integer id){
+        try{
+            return Response.ok().entity(userService.findUserById(id)).build();
+        }catch (NotFoundException e){
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(@Context UriInfo info, User user){
-        users.add(new User(user.getName(), user.getSurname(), ++ID));
+        userService.createUser(user);
         URI uri = info.getRequestUriBuilder().path("{id}").build(ID);
         return Response.created(uri).build();
     }
 
+    @PUT
+    @Consumes("application/json")
+    @Path("/{id}")
+    public Response updateUser(User user, @PathParam("id") Integer id) {
+        try {
+            userService.updateUser(user, id);
+            return Response.noContent().build();
+        } catch (NotFoundException nfe) {
+            return Response.status(Response.Status.NOT_FOUND).entity(nfe.getMessage()).build();
+        } catch (IllegalArgumentException iae) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(iae.getMessage()).build();
+        } catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+    }
+
+
+    @PATCH
+    @Consumes("application/json")
+    @Path("/{id}")
+    public Response partialUpdate(List<PatchOperation> patchOperations, @PathParam("id") Integer id) {
+        try {
+            userService.updatePartialUser(patchOperations, id);
+            return Response.noContent().build();
+        } catch (NotFoundException nfe) {
+            return Response.status(Response.Status.NOT_FOUND).entity(nfe.getMessage()).build();
+        } catch (IllegalArgumentException iae) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(iae.getMessage()).build();
+        } catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+    }
+
+    @DELETE
+    @Path("/{id}")
+     public Response deleteUser(@PathParam("id") Integer id){
+        try{
+            userService.deleteUser(id);
+            return Response.noContent().build();
+        }catch (NotFoundException e){
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+    }
 
 }
 
