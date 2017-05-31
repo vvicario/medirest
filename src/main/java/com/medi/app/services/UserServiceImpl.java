@@ -37,8 +37,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(User user){
+    public Integer createUser(User user){
       users.add(new User(user.getName(), user.getSurname(), user.getAge(), user.getGender(), user.getCivilStatus(), ++ID));
+      return ID;
     }
 
     @Override

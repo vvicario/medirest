@@ -12,7 +12,7 @@ public interface UserService {
 
     User findUserById(Integer id);
 
-    void createUser(User user);
+    Integer createUser(User user);
 
     void updateUser(User user, Integer id);
 
