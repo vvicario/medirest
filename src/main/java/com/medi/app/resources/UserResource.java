@@ -19,8 +19,6 @@ import java.util.List;
 @Path("users")
 public class UserResource {
 
-    private static Integer ID = 1;
-    private final String NAME = "name";
     private UserServiceImpl userService = new UserServiceImpl();
 
     @GET
@@ -45,8 +43,8 @@ public class UserResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(@Context UriInfo info, User user){
-        userService.createUser(user);
-        URI uri = info.getRequestUriBuilder().path("{id}").build(ID);
+        Integer id = userService.createUser(user);
+        URI uri = info.getRequestUriBuilder().path("{id}").build(id);
         return Response.created(uri).build();
     }
 
