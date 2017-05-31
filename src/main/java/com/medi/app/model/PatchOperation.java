@@ -31,3 +31,11 @@ public class PatchOperation {
         this.value = value;
     }
 }
+
+/**
+{
+  "op":"replace",
+  "path":"name",
+  "value":"agustina"
+ }
+ **/
