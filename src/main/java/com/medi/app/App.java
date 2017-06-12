@@ -21,6 +21,8 @@ public class App {
         ResourceConfig config = new ResourceConfig();
         config.packages("com.medi.app");
         config.register(JacksonFeature.class);
+        //Register Auth Filter here
+        config.register(AuthenticationFilter.class);
         ServletHolder apiServlet = new ServletHolder(new ServletContainer(config));
 
         // setup Application context

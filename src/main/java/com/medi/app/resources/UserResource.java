@@ -4,6 +4,8 @@ import com.medi.app.services.UserServiceImpl;
 import com.medi.app.model.PatchOperation;
 import com.medi.app.model.User;
 import io.swagger.jaxrs.PATCH;
+
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
@@ -23,6 +25,7 @@ public class UserResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed("ADMIN")
     public Response getAllUsers() {
         return Response.ok().entity(userService.getUsers()).build();
     }
