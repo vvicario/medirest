@@ -41,36 +41,24 @@ public class AuthenticationFilter  implements javax.ws.rs.container.ContainerReq
                 requestContext.abortWith(ACCESS_FORBIDDEN);
                 return;
             }
-
             //Get request headers
             final MultivaluedMap<String, String> headers = requestContext.getHeaders();
-
             //Fetch authorization header
             final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
-
             //If no authorization information present; block access
-            if(authorization == null || authorization.isEmpty())
-            {
+            if(authorization == null || authorization.isEmpty()) {
                 requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                         .entity("You cannot access this resource").build());
                 return;
             }
-
             //Get encoded username and password
             final String encodedUserPassword = authorization.get(0).replaceFirst(AUTHENTICATION_SCHEME + " ", "");
-
             //Decode username and password
             String usernameAndPassword = new String(Base64.decode(encodedUserPassword.getBytes()));;
-
             //Split username and password tokens
             final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
             final String username = tokenizer.nextToken();
             final String password = tokenizer.nextToken();
-
-            //Verifying Username and password
-            System.out.println(username);
-            System.out.println(password);
-
             //Verify user access
             if(method.isAnnotationPresent(RolesAllowed.class))
             {

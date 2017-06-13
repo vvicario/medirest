@@ -6,12 +6,14 @@ import com.medi.app.model.User;
 import io.swagger.jaxrs.PATCH;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.Provider;
 import java.net.URI;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class UserResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(@Context UriInfo info, User user){
+    public Response createUser(@Context UriInfo info, @Valid User user){
         Integer id = userService.createUser(user);
         URI uri = info.getRequestUriBuilder().path("{id}").build(id);
         return Response.created(uri).build();
