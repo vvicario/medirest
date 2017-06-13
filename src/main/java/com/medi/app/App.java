@@ -6,8 +6,11 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 import sun.applet.Main;
+
+import javax.validation.ValidationProviderResolver;
 
 
 public class App {
@@ -20,7 +23,10 @@ public class App {
         final Server server = new Server(port);
         ResourceConfig config = new ResourceConfig();
         config.packages("com.medi.app");
+        config.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, "true");
         config.register(JacksonFeature.class);
+        //Register Auth Filter here
+        config.register(AuthenticationFilter.class);
         ServletHolder apiServlet = new ServletHolder(new ServletContainer(config));
 
         // setup Application context
